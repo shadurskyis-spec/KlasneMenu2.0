@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>14-Day Menu</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FDFCF8;
+      color: #1C1917;
+      margin: 0;
+    }
+
+    .serif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Language Bar */
+    .lang-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: #1C1917;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      height: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .lang-btn {
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .lang-btn:hover {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .lang-btn.active {
+      color: #fff;
+    }
+
+    .lang-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 2px;
+      background: #A3B18A;
+      border-radius: 1px;
+    }
+
+    .lang-btn .flag {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding-top: 48px;
+    }
+
+    /* Header */
+    .menu-header {
+      text-align: center;
+      padding: 56px 24px 40px;
+      background: linear-gradient(180deg, #F0F4EF 0%, #FDFCF8 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-header::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(
+        circle,
+        rgba(163,177,138,0.15) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    .menu-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: #1C1917;
+      margin: 0 0 12px 0;
+      position: relative;
+    }
+
+    .menu-header h1 em {
+      color: #344E41;
+      font-style: italic;
+    }
+
+    .menu-header p {
+      font-size: 15px;
+      font-weight: 300;
+      color: #78716C;
+      line-height: 1.6;
+      margin: 0;
+      position: relative;
+    }
+
+    /* Decorative line */
+    .header-line {
+      width: 40px;
+      height: 2px;
+      background: #A3B18A;
+      margin: 20px auto 0;
+      border-radius: 1px;
+      position: relative;
+    }
+
+    /* Week Dividers */
+    .week-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 24px;
+      max-width: 1120px;
+      margin: 0 auto 24px;
+    }
+
+    .week-divider .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        #E7E5E4,
+        transparent
+      );
+    }
+
+    .week-divider span {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #A3B18A;
+      white-space: nowrap;
+    }
+
+    /* Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    @media (min-width: 768px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
+    /* Day Card */
+    .day-card {
+      background: #fff;
+      border: 1px solid #F5F5F0;
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .day-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        to right,
+        #344E41,
+        #588157,
+        #A3B18A
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .day-card:hover::before {
+      opacity: 1;
+    }
+
+    .day-card:hover {
+      border-color: #E7E5E4;
+      box-shadow: 0 8px 30px rgba(52,78,65,0.08);
+    }
+
+    /* Day Header */
+    .day-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #F5F5F0;
+    }
+
+    .day-head .day-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1C1917;
+    }
+
+    .day-head .day-name {
+      font-size: 13px;
+      font-weight: 400;
+      color: #A8A29E;
+    }
+
+    /* Meal Row */
+    .meal-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 10px;
+      border-radius: 12px;
+    }
+
+    .meal-row + .meal-row {
+      margin-top: 2px;
+    }
+
+    .meal-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .meal-icon.breakfast {
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      color: #92400E;
+    }
+
+    .meal-icon.lunch {
+      background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+      color: #1E40AF;
+    }
+
+    .meal-icon.dinner {
+      background: linear-gradient(135deg, #E8EDDF, #D4DDCA);
+      color: #344E41;
+    }
+
+    .meal-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .meal-type-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #A8A29E;
+      margin-bottom: 3px;
+    }
+
+    .meal-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1C1917;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .meal-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: #78716C;
+      line-height: 1.5;
+      margin: 3px 0 0 0;
+    }
+
+    /* Footer */
+    .menu-footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid #F5F5F0;
+    }
+
+    .menu-footer p {
+      font-size: 12px;
+      color: #A8A29E;
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    /* Smooth scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #D6D3D1;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #A8A29E;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Language Bar -->
+  <div class="lang-bar">
+    <button class="lang-btn active" data-lang="en">
+      <span class="flag">🇬🇧</span>
+      <span>English</span>
+    </button>
+
+    <button class="lang-btn" data-lang="uk">
+      <span class="flag">🇺🇦</span>
+      <span>Українська</span>
+    </button>
+
+    <button class="lang-btn" data-lang="cs">
+      <span class="flag">🇨🇿</span>
+      <span>Čeština</span>
+    </button>
+  </div>
+
+  <!-- Main -->
+  <div class="main-content">
+
+    <!-- Header -->
+    <div class="menu-header">
+      <h1 data-i18n="title">14-Day <em>Meal Plan</em></h1>
+
+      <p data-i18n="subtitle">
+        Breakfast, lunch & dinner — every day, thoughtfully arranged.
+      </p>
+
+      <div class="header-line"></div>
+    </div>
+
+    <!-- Week 1 Label -->
+    <div class="week-divider" style="margin-top: -8px;">
+      <div class="line"></div>
+      <span data-i18n="week1">Week 1</span>
+      <div class="line"></div>
+    </div>
+
+    <!-- Week 1 Grid -->
+    <div class="menu-grid" id="week1Grid"></div>
+
+    <!-- Week 2 Label -->
+    <div class="week-divider" style="margin-top: 8px;">
+      <div class="line"></div>
+      <span data-i18n="week2">Week 2</span>
+      <div class="line"></div>
+    </div>
+
+    <!-- Week 2 Grid -->
+    <div
+      class="menu-grid"
+      id="week2Grid"
+      style="padding-bottom: 40px;"
+    ></div>
+
+    <!-- Footer -->
+    <div class="menu-footer">
+      <p data-i18n="footer">Eat well, every day.</p>
+    </div>
+
+  </div>
+
+<script>
+
+const i18n = {
+
+  en: {
+    title: '14-Day <em>Meal Plan</em>',
+    subtitle: 'Breakfast, lunch & dinner — every day, thoughtfully arranged.',
+    week1: 'Week 1',
+    week2: 'Week 2',
+    footer: 'Eat well, every day.',
+    breakfast: 'Breakfast',
+    lunch: 'Lunch',
+    dinner: 'Dinner',
+
+    days: [
+      'Monday 24.08.2026',
+      'Tuesday 25.08.2026',
+      'Wednesday 26.08.2026',
+      'Thursday 27.08.2026',
+      'Friday 28.08.2026',
+      'Saturday 29.08.2026',
+      'Sunday 30.08.2026',
+
+      'Monday 31.08.2026',
+      'Tuesday 01.09.2026',
+      'Wednesday 02.09.2026',
+      'Thursday 03.09.2026',
+      'Friday 04.09.2026',
+      'Saturday 05.09.2026',
+      'Sunday 06.09.2026'
+    ]
+  },
+
+  uk: {
+    title: '14-денне <em>меню</em>',
+    subtitle: 'Сніданок, обід та вечеря — кожен день, продумано.',
+    week1: 'Тиждень 1',
+    week2: 'Тиждень 2',
+    footer: 'Їжте смачно, кожного дня.',
+    breakfast: 'Сніданок',
+    lunch: 'Обід',
+    dinner: 'Вечеря',
+
+    days: [
+      'Понеділок 24.08.2026',
+      'Вівторок 25.08.2026',
+      'Середа 26.08.2026',
+      'Четвер 27.08.2026',
+      'Пʼятниця 28.08.2026',
+      'Субота 29.08.2026',
+      'Неділя 30.08.2026',
+
+      'Понеділок 31.08.2026',
+      'Вівторок 01.09.2026',
+      'Середа 02.09.2026',
+      'Четвер 03.09.2026',
+      'Пʼятниця 04.09.2026',
+      'Субота 05.09.2026',
+      'Неділя 06.09.2026'
+    ]
+  },
+
+  cs: {
+    title: '14denní <em>Jídelníček</em>',
+    subtitle: 'Snídaně, oběd a večeře — každý den, promyšleně.',
+    week1: '1. týden',
+    week2: '2. týden',
+    footer: 'Jezte dobře, každý den.',
+    breakfast: 'Snídaně',
+    lunch: 'Oběd',
+    dinner: 'Večeře',
+
+    days: [
+      'Pondělí 24.08.2026',
+      'Úterý 25.08.2026',
+      'Středa 26.08.2026',
+      'Čtvrtek 27.08.2026',
+      'Pátek 28.08.2026',
+      'Sobota 29.08.2026',
+      'Neděle 30.08.2026',
+
+      'Pondělí 31.08.2026',
+      'Úterý 01.09.2026',
+      'Středa 02.09.2026',
+      'Čtvrtek 03.09.2026',
+      'Pátek 04.09.2026',
+      'Sobota 05.09.2026',
+      'Neděle 06.09.2026'
+    ]
+  }
+
+};
+
+
+const menuData = {
+
+  en: [
+
+    /* WEEK 1 */
+    [
+      {
+        b: { n: "Muesli", d: "Muesli with milk" },
+        l: { n: "Buckwheat", d: "Buckwheat with a side dish" },
+        dn: { n: "Rice", d: "Rice with a side dish" }
+      },
+
+      {
+        b: { n: "Eggs with a Side Dish", d: "Eggs with a side dish" },
+        l: { n: "Pasta with a Side Dish", d: "Pasta with a side dish" },
+        dn: { n: "Varenyky", d: "Varenyky" }
+      },
+
+      {
+        b: { n: "Muesli", d: "Muesli with milk" },
+        l: { n: "Buckwheat", d: "Buckwheat with a side dish" },
+        dn: {
+          n: "Buckwheat Soup",
+          d: "Buckwheat soup with meatballs, buckwheat, carrots and potatoes"
+        }
+      },
+
+      {
+        b: { n: "Vegetable Salad", d: "Vegetable salad" },
+        l: { n: "Rice", d: "Rice with a side dish" },
+        dn: {
+          n: "Potatoes",
+          d: "Potatoes with butter and a side dish"
+        }
+      },
+
+      {
+        b: { n: "Pancakes", d: "Pancakes with an optional side dish" },
+        l: { n: "Pasta", d: "Pasta with a side dish" },
+        dn: {
+          n: "Plov",
+          d: "Plov with sweetcorn and an optional additional side dish"
+        }
+      },
+
+      {
+        b: { n: "Salmon", d: "Salmon with a side dish" },
+        l: {
+          n: "Rice Soup",
+          d: "Rice soup with potatoes, carrots, onions and rice"
+        },
+        dn: {
+          n: "Risotto",
+          d: "Risotto with rice and other ingredients"
+        }
+      },
+
+      {
+        b: { n: "Varenyky", d: "Varenyky" },
+        l: {
+          n: "Rice Soup",
+          d: "Rice soup with potatoes, carrots, onions and rice"
+        },
+        dn: {
+          n: "Buckwheat",
+          d: "Buckwheat with a side dish"
+        }
+      }
+    ],
+
+    /* WEEK 2 */
+    [
+      {
+        b: { n: "Muesli", d: "Muesli with milk" },
+        l: { n: "Pasta", d: "Pasta with a side dish" },
+        dn: { n: "Rice", d: "Rice with a side dish" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      }
+    ]
+
+  ],
+
+
+  uk: [
+
+    /* WEEK 1 */
+    [
+      {
+        b: { n: "Мюслі", d: "Мюслі з молоком" },
+        l: { n: "Гречка", d: "Гречка з гарніром" },
+        dn: { n: "Рис", d: "Рис з гарніром" }
+      },
+
+      {
+        b: { n: "Яйця з гарніром", d: "Яйця з гарніром" },
+        l: { n: "Макарони з гарніром", d: "Макарони з гарніром" },
+        dn: { n: "Вареники", d: "Вареники" }
+      },
+
+      {
+        b: { n: "Мюслі", d: "Мюслі з молоком" },
+        l: { n: "Гречка", d: "Гречка з гарніром" },
+        dn: {
+          n: "Гречаний суп",
+          d: "Гречаний суп з фрикадельками, гречкою, морквою та картоплею"
+        }
+      },
+
+      {
+        b: { n: "Овочевий салат", d: "Овочевий салат" },
+        l: { n: "Рис", d: "Рис з гарніром" },
+        dn: { n: "Картопля", d: "Картопля з маслом та гарніром" }
+      },
+
+      {
+        b: { n: "Млинці", d: "Млинці з можливим гарніром" },
+        l: { n: "Макарони", d: "Макарони з гарніром" },
+        dn: {
+          n: "Плов",
+          d: "Плов з кукурудзою та можливим додатковим гарніром"
+        }
+      },
+
+      {
+        b: { n: "Лосось", d: "Лосось з гарніром" },
+        l: {
+          n: "Рисовий суп",
+          d: "Рисовий суп з картоплею, морквою, цибулею та рисом"
+        },
+        dn: {
+          n: "Різотто",
+          d: "Різотто з рисом та іншими інгредієнтами"
+        }
+      },
+
+      {
+        b: { n: "Вареники", d: "Вареники" },
+        l: {
+          n: "Рисовий суп",
+          d: "Рисовий суп з картоплею, морквою, цибулею та рисом"
+        },
+        dn: { n: "Гречка", d: "Гречка з гарніром" }
+      }
+    ],
+
+    /* WEEK 2 */
+    [
+      {
+        b: { n: "Мюслі", d: "Мюслі з молоком" },
+        l: { n: "Макарони", d: "Макарони з гарніром" },
+        dn: { n: "Рис", d: "Рис з гарніром" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      }
+    ]
+
+  ],
+
+
+  cs: [
+
+    /* WEEK 1 */
+    [
+      {
+        b: { n: "Müsli", d: "Müsli s mlékem" },
+        l: { n: "Pohanka", d: "Pohanka s přílohou" },
+        dn: { n: "Rýže", d: "Rýže s přílohou" }
+      },
+
+      {
+        b: { n: "Vajíčka s přílohou", d: "Vajíčka s přílohou" },
+        l: {
+          n: "Těstoviny s přílohou",
+          d: "Těstoviny s přílohou"
+        },
+        dn: { n: "Varenyky", d: "Varenyky" }
+      },
+
+      {
+        b: { n: "Müsli", d: "Müsli s mlékem" },
+        l: { n: "Pohanka", d: "Pohanka s přílohou" },
+        dn: {
+          n: "Pohanková polévka",
+          d: "Pohanková polévka s kuličkami, pohánkou, mrkví a bramborami"
+        }
+      },
+
+      {
+        b: { n: "Zeleninový salát", d: "Zeleninový salát" },
+        l: { n: "Rýže", d: "Rýže s přílohou" },
+        dn: { n: "Brambory", d: "Brambory s máslem a přílohou" }
+      },
+
+      {
+        b: { n: "Palačinky", d: "Palačinky s možnou přílohou" },
+        l: { n: "Těstoviny", d: "Těstoviny s přílohou" },
+        dn: {
+          n: "Plov",
+          d: "Plov s kukuřicí a možnou další přílohou"
+        }
+      },
+
+      {
+        b: { n: "Losos", d: "Losos s přílohou" },
+        l: {
+          n: "Rýžová polévka",
+          d: "Rýžová polévka s brambory, mrkví, cibulí a rýží"
+        },
+        dn: {
+          n: "Risotto",
+          d: "Risotto s rýží a dalšími ingrediencemi"
+        }
+      },
+
+      {
+        b: { n: "Varenyky", d: "Varenyky" },
+        l: {
+          n: "Rýžová polévka",
+          d: "Rýžová polévka s brambory, mrkví, cibulí a rýží"
+        },
+        dn: { n: "Pohanka", d: "Pohanka s přílohou" }
+      }
+    ],
+
+    /* WEEK 2 */
+    [
+      {
+        b: { n: "Müsli", d: "Müsli s mlékem" },
+        l: { n: "Těstoviny", d: "Těstoviny s přílohou" },
+        dn: { n: "Rýže", d: "Rýže s přílohou" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      },
+
+      {
+        b: { n: "❌", d: "❌" },
+        l: { n: "❌", d: "❌" },
+        dn: { n: "❌", d: "❌" }
+      }
+    ]
+
+  ]
+
+};
+
+
+/* Current language */
+let currentLang = "en";
+
+
+/* Render one week */
+function renderWeek(weekIdx, containerId) {
+
+  const grid = document.getElementById(containerId);
+  const t = i18n[currentLang];
+  const data = menuData[currentLang][weekIdx];
+
+  grid.innerHTML = "";
+
+  data.forEach((day, i) => {
+
+    /*
+      IMPORTANT:
+      Week 1 uses dates 0–6.
+      Week 2 uses dates 7–13.
+    */
+    const dateIndex = weekIdx === 0 ? i : i + 7;
+
+    const card = document.createElement("div");
+
+    card.className = "day-card";
+
+
+    const mealTypes = [
+
+      {
+        key: "b",
+        label: t.breakfast,
+        icon: "lucide:sunrise",
+        cls: "breakfast"
+      },
+
+      {
+        key: "l",
+        label: t.lunch,
+        icon: "lucide:sun",
+        cls: "lunch"
+      },
+
+      {
+        key: "dn",
+        label: t.dinner,
+        icon: "lucide:moon",
+        cls: "dinner"
+      }
+
+    ];
+
+
+    const mealsHtml = mealTypes.map(mt => `
+
+      <div class="meal-row">
+
+        <div class="meal-icon ${mt.cls}">
+          <span
+            class="iconify"
+            data-icon="${mt.icon}"
+            data-width="15"
+          ></span>
+        </div>
+
+        <div class="meal-info">
+
+          <div class="meal-type-label">
+            ${mt.label}
+          </div>
+
+          <p class="meal-name">
+            ${day[mt.key].n}
+          </p>
+
+          <p class="meal-desc">
+            ${day[mt.key].d}
+          </p>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+
+    card.innerHTML = `
+
+      <div class="day-head">
+
+        <span class="day-label">
+          ${t.days[dateIndex]}
+        </span>
+
+      </div>
+
+      ${mealsHtml}
+
+    `;
+
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+/* Render everything */
+function renderAll() {
+
+  const t = i18n[currentLang];
+
+
+  document.querySelector(
+    "[data-i18n='title']"
+  ).innerHTML = t.title;
+
+
+  document.querySelector(
+    "[data-i18n='subtitle']"
+  ).textContent = t.subtitle;
+
+
+  document.querySelector(
+    "[data-i18n='week1']"
+  ).textContent = t.week1;
+
+
+  document.querySelector(
+    "[data-i18n='week2']"
+  ).textContent = t.week2;
+
+
+  document.querySelector(
+    "[data-i18n='footer']"
+  ).textContent = t.footer;
+
+
+  renderWeek(0, "week1Grid");
+
+  renderWeek(1, "week2Grid");
+
+}
+
+
+/* Language buttons */
+document.querySelectorAll(".lang-btn").forEach(btn => {
+
+  btn.addEventListener("click", () => {
+
+    document
+      .querySelectorAll(".lang-btn")
+      .forEach(b => b.classList.remove("active"));
+
+
+    btn.classList.add("active");
+
+
+    currentLang = btn.dataset.lang;
+
+
+    renderAll();
+
+  });
+
+});
+
+
+/* Init */
+renderAll();
+
+</script>
+
+</body>
+</html>
